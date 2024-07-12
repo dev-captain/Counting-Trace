@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollable {
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
 body {
   color: #fff;
   background-color: #333;
