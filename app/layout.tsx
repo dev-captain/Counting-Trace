@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Raleway } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
 
-const raleway = Raleway({ subsets: ["latin"] });
+const montserrat = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "IWA COUNTING TRACE",
@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={raleway.className}>{children}</body>
+      <body className={montserrat.className}>{children}</body>
     </html>
   );
 }

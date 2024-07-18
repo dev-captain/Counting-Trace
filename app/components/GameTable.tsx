@@ -1,89 +1,35 @@
-function randomValue() {
-  return Math.floor(Math.random() * 100);  // Generates a random value between 0 and 99
-}
+"use client";
 
-const symbols = ['●', '〇', '／'];
+import React, {useState} from 'react';
+import BaccaratTable from './GameTable/BaccaratTable';
+import BlackjackTable from './GameTable/BlackjackTable';
 
 export default function GameTable() {
-  return (
-    <div className="min-h-screen">
-      <div className="bg-white scrollable">
-        <div className="border-b">
-          <div className="flex">
-            <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200">Baccarat</button>
-            <button className="px-4 py-2 text-sm font-medium text-gray-700">Brack Jack</button>
-          </div>
-        </div>
-        <div className=" bg-[#BECAD6] p-4">
-          <div className="overflow-x-auto">
-            <table className="min-w-full border-separate border-spacing-y-4">
-              <thead>
-              <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                <th className="py-3 px-6 text-left">Brand</th>
-                <th className="py-3 px-6 text-left">Room No.</th>
-                <th className="py-3 px-6 text-left">Player</th>
-                <th className="py-3 px-6 text-left">Banker</th>
-                <th className="py-3 px-6 text-left">Tie</th>
-                <th className="py-3 px-6 text-left">Jump</th>
-                <th className="py-3 px-6 text-left">Chart</th>
-              </tr>
-              </thead>
-              <tbody className="text-gray-600 text-sm font-light">
-              {Array.from({ length: 10 }).map((_, index) => (
-                <tr key={index} className="">
-                  <td className="py-3 px-6 text-left whitespace-nowrap bg-white">
-                    <div className="flex items-center">
-                      <span className="font-medium">Micro Gaming</span>
-                    </div>
-                  </td>
-                  <td className="py-3 px-6 text-left bg-white">
-                    <div className="flex items-center">
-                      <span className="bg-gray-100 px-2 py-1 rounded">000{index + 1}</span>
-                    </div>
-                  </td>
-                  <td className="py-3 px-6 text-left bg-white">
-                    <div className={`flex items-center　${randomValue() ? 'text-red-500' : ''}`}>
-                      <span className='bg-gray-100 px-2 py-1 rounded'>{randomValue()}.00 %</span>
-                    </div>
-                  </td>
-                  <td className="py-3 px-6 text-left bg-white">
-                    <div className={`flex items-center　${randomValue() ? 'text-red-500' : ''}`}>
-                      <span className="bg-gray-100 px-2 py-1 rounded">{randomValue()}.00 %</span>
-                    </div>
-                  </td>
-                  <td className="py-3 px-6 text-left bg-white">
-                    <div className="flex items-center">
-                      <span className="bg-gray-100 px-2 py-1 rounded">{2 + index * 0.5} %</span>
-                    </div>
-                  </td>
-                  <td className="py-3 px-6 text-left bg-white">
-                    <button className="bg-blue-500 text-white px-4 py-1 rounded">link</button>
-                  </td>
-                  <td className="py-3 px-6 text-left">
-                    <div className="flex items-center">
-                      <div className="grid grid-flow-col grid-rows-6 gap-1">
-                        {Array.from({ length: 54 }).map((_, i) => (
-                            <div key={i} className="w-4 h-4 border border-black flex items-center justify-center">
-                              {symbols[Math.floor(Math.random() * symbols.length)]}
-                            </div>
-                        ))}
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="gridTable">
-            <ul>
-              <li className="grid grid-cols-7">
+    const [currentTab, setCurrentTab] = useState('Baccarat');
 
-              </li>
-            </ul>
-          </div>
+    return (
+        <div className="min-h-screen">
+            <div className="scrollable">
+                <div className="border-b">
+                    <div className="flex">
+                        <button
+                            className={`px-4 py-2 text-sm font-medium text-gray-700 ${currentTab === 'Baccarat' ? 'bg-[#BECAD6]' : 'bg-gray-200'}`}
+                            onClick={() => setCurrentTab('Baccarat')}
+                        >
+                            Baccarat
+                        </button>
+                        <button
+                            className={`px-4 py-2 text-sm font-medium text-gray-700 ${currentTab === 'Blackjack' ? 'bg-[#BECAD6]' : 'bg-gray-200'}`}
+                            onClick={() => setCurrentTab('Blackjack')}
+                        >
+                            Blackjack
+                        </button>
+                    </div>
+                </div>
+                <div className="bg-[#BECAD6] p-4">
+                    {currentTab === 'Baccarat' ? <BaccaratTable/> : <BlackjackTable/>}
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  )
+    );
 }
