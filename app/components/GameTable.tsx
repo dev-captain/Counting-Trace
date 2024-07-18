@@ -24,7 +24,7 @@ export default function GameTable() {
                         Blackjack
                     </button>
                 </div>
-                <div className="bg-[#BECAD6] p-4">
+                <div className="bg-[#BECAD6] p-4 rounded-r-lg">
                     {currentTab === 'Baccarat' ? <BaccaratTable/> : <BlackjackTable/>}
                 </div>
             </div>
