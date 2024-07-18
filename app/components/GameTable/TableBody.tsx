@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import GameResultChart from './GameResultChart';
+import Image from "next/image";
 
 interface TableBodyProps {
     rows: { player: number; banker: number; tie: number }[];
@@ -31,7 +32,11 @@ const TableBody: React.FC<TableBodyProps> = ({ rows }) => {
                 <tr key={index} className="">
                     <td className="px-3 text-left whitespace-nowrap bg-white rounded-l-lg">
                         <div className="flex items-center">
-                            <span className="font-medium text-xl">Micro Gaming</span>
+                            <Image src="/microgaming_logo.png"
+                                   alt="Micro Gaming"
+                                   width={150}
+                                   height={50}
+                            />
                         </div>
                     </td>
                     <td className="px-3 text-left bg-white">
