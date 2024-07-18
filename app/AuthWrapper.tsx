@@ -1,21 +1,22 @@
 "use client";
 
 import React, { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 export default function AuthWrapper({
-                                        children,
-                                    }: Readonly<{
+    children,
+}: Readonly<{
     children: React.ReactNode;
 }>) {
     const router = useRouter();
+    const pathname = usePathname();
 
     useEffect(() => {
         const auth = localStorage.getItem('auth');
-        if (!auth && router.pathname !== '/login') {
+        if (!auth && pathname !== '/login') {
             router.push('/login');
         }
-    }, [router]);
+    }, [router, pathname]);
 
     return <>{children}</>;
 }
