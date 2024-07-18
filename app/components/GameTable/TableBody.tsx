@@ -29,7 +29,7 @@ const TableBody: React.FC<TableBodyProps> = ({ rows }) => {
             const { deck, deal, rest } = randomValues[index] || { deck: 0, deal: 0, rest: 0 };
             return (
                 <tr key={index} className="">
-                    <td className="px-3 text-left whitespace-nowrap bg-white">
+                    <td className="px-3 text-left whitespace-nowrap bg-white rounded-l-lg">
                         <div className="flex items-center">
                             <span className="font-medium text-xl">Micro Gaming</span>
                         </div>
@@ -69,7 +69,7 @@ const TableBody: React.FC<TableBodyProps> = ({ rows }) => {
                             <span className="bg-gray-100 px-2 py-1 rounded text-xl inline-block w-full text-center">{rest}</span>
                         </div>
                     </td>
-                    <td className="px-3 text-left bg-white">
+                    <td className="px-3 text-left bg-white rounded-r-lg">
                         <button className="bg-blue-500 text-white px-4 py-1 rounded">link</button>
                     </td>
                     <td className="px-3 text-left">
