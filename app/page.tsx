@@ -48,7 +48,7 @@ const Login = () => {
                     Login
                 </button>
             </div>
-            <p className="mt-4">ID:user<br />password:password</p>
+            <p className="mt-4 text-white">ID:user<br />password:password</p>
         </div>
     );
 };
