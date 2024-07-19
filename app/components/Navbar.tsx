@@ -1,6 +1,7 @@
 "use client";
 
 import Image from 'next/image';
+import { LogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
@@ -26,7 +27,7 @@ const Navbar = () => {
                     className="pointer-events-none flex place-items-center gap-2 p-2 lg:pointer-events-auto rounded-md bg-[#2380C8] font-bold"
                     onClick={handleLogout}
                 >
-                    LOGOUT
+                    <LogOut />
                 </button>
             </div>
         </header>
