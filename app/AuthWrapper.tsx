@@ -13,8 +13,8 @@ export default function AuthWrapper({
 
     useEffect(() => {
         const auth = localStorage.getItem('auth');
-        if (!auth && pathname !== '/login') {
-            router.push('/login');
+        if (!auth && pathname !== '/') {
+            router.push('/');
         }
     }, [router, pathname]);
 
