@@ -2,12 +2,14 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+import Image from 'next/image'
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const router = useRouter();
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const handleLogin = () => {
         // ダミーの認証ロジック
@@ -15,7 +17,7 @@ const Login = () => {
             localStorage.setItem('auth', 'true');
             router.push('/dashboard');
         } else {
-            alert('Invalid credentials');
+            onOpen();
         }
     };
 
@@ -47,6 +49,19 @@ const Login = () => {
                 <button onClick={handleLogin} className="w-full bg-blue-500 text-white p-2 rounded">
                     Login
                 </button>
+                <Modal isOpen={isOpen} onClose={onClose}>
+                    <ModalContent>
+                        <ModalHeader className="text-danger">Login Error</ModalHeader>
+                        <ModalBody className="text-gray-950">
+                            Invalid credentials. Please try again.
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="primary" onPress={onClose}>
+                                Close
+                            </Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
             </div>
             <p className="mt-4 text-white">ID:user<br />password:password</p>
         </div>

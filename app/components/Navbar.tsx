@@ -1,8 +1,9 @@
 "use client";
 
 import Image from 'next/image';
-import { LogOut } from 'lucide-react';
+import { AlignJustify } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
 
 const Navbar = () => {
     const router = useRouter();
@@ -22,13 +23,23 @@ const Navbar = () => {
                 />
             </div>
             <div
-                className="absolute right-0 flex gap-2 h-48 w-full items-center justify-center bg-gradient-to-t from-white via-white lg:size-auto lg:bg-none">
-                <button
-                    className="pointer-events-none flex place-items-center gap-2 p-2 lg:pointer-events-auto rounded-md bg-[#2380C8] font-bold"
-                    onClick={handleLogout}
-                >
-                    <LogOut />
-                </button>
+                className="absolute right-0 flex gap-2 h-48 w-full items-center justify-center lg:size-auto">
+                <Dropdown>
+                    <DropdownTrigger>
+                        <Button
+                            variant="solid"
+                            className="bg-blue-500 text-white"
+                        >
+                            <AlignJustify />
+                        </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu aria-label="Static Actions" className="text-gray-950">
+                        <DropdownItem key="profile">Profile</DropdownItem>
+                        <DropdownItem key="delete" className="text-danger" color="danger" onClick={handleLogout}>
+                            LOGOUT
+                        </DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
             </div>
         </header>
     );
