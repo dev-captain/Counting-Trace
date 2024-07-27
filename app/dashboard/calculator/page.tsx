@@ -1,8 +1,8 @@
 'use client';
 
-import {useState} from 'react';
+import { useState } from 'react';
 import axios from 'axios';
-import {Button} from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 
 interface Odds {
   banker: number;
@@ -14,35 +14,21 @@ const BaccaratCalculator = () => {
   const [odds, setOdds] = useState<Odds | null>(null);
   const [cardList, setCardList] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
-  const [inputValue, setInputValue] = useState<string>('');
-  const [errorMessage, setErrorMessage] = useState<string>('');
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-    setErrorMessage('');
-  };
-
-  const handleAddCard = () => {
-    const newCard = parseInt(inputValue, 10);
-    if (!isNaN(newCard) && newCard >= 0 && newCard <= 9) {
-      setCardList([...cardList, newCard]);
-      setInputValue('');
-    } else {
-      setErrorMessage('Please enter a number between 0 and 9');
-    }
+  const handleAddCard = (number: number) => {
+    setCardList([...cardList, number]);
   };
 
   const handleReset = () => {
     setCardList([]);
     setOdds(null);
-    setErrorMessage('');
   };
 
   const calculateOdds = async () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://5.9.85.28:5000/calculate_odds",
+        "https://ik1-103-58203.vs.sakura.ne.jp/calculate_odds",
         {
           cardList: cardList,
         }
@@ -64,21 +50,18 @@ const BaccaratCalculator = () => {
             <span key={index}>{item} </span>
           ))}
         </div>
+        <div className="grid grid-cols-5 gap-2 my-4">
+          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((number) => (
+            <Button key={number} onClick={() => handleAddCard(number)} size="sm">
+              {number}
+            </Button>
+          ))}
+        </div>
         <div className="flex flex-col gap-4">
-          <input
-            type="number"
-            value={inputValue}
-            min="0"
-            max="9"
-            onChange={handleInputChange}
-            placeholder="Enter card number"
-            className="border p-2 rounded-md text-gray-800"
-          />
-          <Button onClick={handleAddCard} size="md">Add Card</Button>
-          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
           <Button onClick={handleReset} size="md">Reset</Button>
-          <Button onClick={calculateOdds} size="md">{loading ? "Calculating..." : "Calculate Odds"}</Button>
-
+          <Button onClick={calculateOdds} size="md">
+            {loading ? "Calculating..." : "Calculate Odds"}
+          </Button>
         </div>
 
         {odds && (
