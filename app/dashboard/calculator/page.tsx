@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import axios from 'axios';
+import { useState } from "react";
+import axios from "axios";
 import { Button } from "@nextui-org/react";
 
 interface Odds {
@@ -28,7 +28,7 @@ const BaccaratCalculator = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "https://ik1-103-58203.vs.sakura.ne.jp/calculate_odds",
+        "https://baccarat-odds-system-j2l3.onrender.com/calculate_odds",
         {
           cardList: cardList,
         }
@@ -52,13 +52,19 @@ const BaccaratCalculator = () => {
         </div>
         <div className="grid grid-cols-5 gap-2 my-4">
           {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((number) => (
-            <Button key={number} onClick={() => handleAddCard(number)} size="sm">
+            <Button
+              key={number}
+              onClick={() => handleAddCard(number)}
+              size="sm"
+            >
               {number}
             </Button>
           ))}
         </div>
         <div className="flex flex-col gap-4">
-          <Button onClick={handleReset} size="md">Reset</Button>
+          <Button onClick={handleReset} size="md">
+            Reset
+          </Button>
           <Button onClick={calculateOdds} size="md">
             {loading ? "Calculating..." : "Calculate Odds"}
           </Button>
@@ -74,6 +80,6 @@ const BaccaratCalculator = () => {
       </div>
     </div>
   );
-}
+};
 
 export default BaccaratCalculator;
