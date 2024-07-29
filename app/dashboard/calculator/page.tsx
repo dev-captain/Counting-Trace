@@ -3,6 +3,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Button } from "@nextui-org/react";
+import Link from "next/link";
 
 interface Odds {
   banker: number;
@@ -13,7 +14,7 @@ interface Odds {
 const BaccaratCalculator = () => {
   const [odds, setOdds] = useState<Odds | null>(null);
   const [cardList, setCardList] = useState<number[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const cardNames = ['10s & Faces', 'Aces', '2s', '3s', '4s', '5s', '6s', '7s', '8s', '9s'];
   const maxCounts = [128, 32, 32, 32, 32, 32, 32, 32, 32, 32];
@@ -31,7 +32,7 @@ const BaccaratCalculator = () => {
   };
 
   const calculateOdds = async () => {
-    setLoading(true);
+    setIsLoading(true);
     try {
       const response = await axios.post(
         "https://baccarat-odds-system-j2l3.onrender.com/calculate_odds",
@@ -43,12 +44,13 @@ const BaccaratCalculator = () => {
       setOdds(response.data);
     } catch (error) {
       console.error("Error calculating odds:", error);
+    } finally {
+      setIsLoading(false);
     }
-    setLoading(false);
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center">
+    <div className="flex justify-center items-center">
       <div className="calculator--container max-w-md mx-auto">
         <h1 className="text-center text-3xl mb-4">Baccarat Odds Calculator</h1>
         <div className="list grid grid-cols-2 gap-4">
@@ -83,18 +85,33 @@ const BaccaratCalculator = () => {
           <Button onClick={handleReset} size="md">
             Reset
           </Button>
-          <Button onClick={calculateOdds} size="md">
-            {loading ? "Calculating..." : "Calculate Odds"}
+          <Button
+            onClick={calculateOdds}
+            isLoading={isLoading}
+            size="md"
+          >
+            {isLoading ? "Calculating..." : "Calculate Odds"}
           </Button>
         </div>
-
-        {odds && (
-          <div className="flex flex-col gap-4 justify-center items-center">
-            <p>Banker: {(odds.banker * 100).toFixed(2)}%</p>
-            <p>Player: {(odds.player * 100).toFixed(2)}%</p>
-            <p>Tie: {(odds.tie * 100).toFixed(2)}%</p>
-          </div>
-        )}
+        <div className="flex flex-col gap-4 justify-center items-center">
+          {odds ? (
+              <>
+                <p>Banker: {(odds.banker * 100).toFixed(2)}%</p>
+                <p>Player: {(odds.player * 100).toFixed(2)}%</p>
+                <p>Tie: {(odds.tie * 100).toFixed(2)}%</p>
+              </>
+            ) : (
+              <>
+                <p>Banker: 0.00%</p>
+                <p>Player: 0.00%</p>
+                <p>Tie: 0.00%</p>
+              </>
+          )}
+        </div>
+        <Button size="md" as={Link}
+                href="/dashboard">
+          Back
+        </Button>
       </div>
     </div>
   );

@@ -8,11 +8,11 @@ interface TableBodyProps {
 
 const TableBody: React.FC<TableBodyProps> = ({ rows }) => {
     const generateRandomValues = () => {
-        const deck = Math.floor(Math.random() * 8); // 0から8までのランダムな値
-        const minDeal = deck * 52;
-        const maxDeal = (deck + 1) * 52;
-        const deal = Math.floor(Math.random() * (maxDeal - minDeal)) + minDeal; // dealのランダムな値
-        const rest = 416 - deal; // restの値
+        const deck = 8;
+        const totalCards = deck * 52;
+        const minDeal = 0;
+        const deal = Math.floor(Math.random() * (totalCards - minDeal + 1)) + minDeal;
+        const rest = totalCards - deal;
         return { deck, deal, rest };
     };
 

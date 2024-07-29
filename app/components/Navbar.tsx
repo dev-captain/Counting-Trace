@@ -4,8 +4,8 @@ import Image from 'next/image';
 import {AlignJustify} from 'lucide-react';
 import {useRouter} from 'next/navigation';
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button, DropdownSection} from "@nextui-org/react";
-import {Avatar} from "@nextui-org/react";
-import {LogOut, User} from 'lucide-react';
+import {LogOut, User, Calculator, LayoutDashboard } from 'lucide-react';
+import Link from "next/link";
 
 const Navbar = () => {
   const router = useRouter();
@@ -16,7 +16,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="z-10 w-full items-center justify-center text-sm lg:flex relative">
+    <header className="z-10 w-full items-center justify-center text-sm lg:flex relative py-4">
       <div className="flex items-center">
         <Image src="/logo.png"
                alt="IWA COUNTING TRACE"
@@ -38,6 +38,8 @@ const Navbar = () => {
           <DropdownMenu aria-label="Static Actions" className="text-gray-950">
             <DropdownSection showDivider>
               <DropdownItem key="profile" startContent={<User/>}>Profile</DropdownItem>
+              <DropdownItem key="dashboard" startContent={<LayoutDashboard/>} as={Link} href="/dashboard">Dashboard</DropdownItem>
+              <DropdownItem key="calculator" startContent={<Calculator/>} as={Link} href="/dashboard/calculator">Calculator</DropdownItem>
             </DropdownSection>
             <DropdownSection>
               <DropdownItem key="delete" startContent={<LogOut/>} className="text-danger" color="danger"
