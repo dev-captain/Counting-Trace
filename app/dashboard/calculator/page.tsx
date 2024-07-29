@@ -19,10 +19,17 @@ const BaccaratCalculator = () => {
   const cardNames = ['10s & Faces', 'Aces', '2s', '3s', '4s', '5s', '6s', '7s', '8s', '9s'];
   const maxCounts = [128, 32, 32, 32, 32, 32, 32, 32, 32, 32];
 
-  const handleAddCard = (index: number) => {
+  const handleAddCard = (index: number, count: number) => {
     const currentCount = cardList.filter(item => item === index).length;
-    if (currentCount < maxCounts[index]) {
-      setCardList([...cardList, index]);
+    const maxCount = maxCounts[index];
+    const availableCount = maxCount - currentCount;
+
+    if (availableCount > 0) {
+      const countToAdd = Math.min(count, availableCount);
+      setCardList(prevList => [
+        ...prevList,
+        ...Array(countToAdd).fill(index)
+      ]);
     }
   };
 
@@ -49,6 +56,24 @@ const BaccaratCalculator = () => {
     }
   };
 
+  const randomGenerate = () => {
+    const newCardList: number[] = [];
+    const cardIndices = cardNames.map((_, index) => index);
+
+    cardIndices.forEach(index => {
+      const currentCount = cardList.filter(item => item === index).length;
+      const availableCount = maxCounts[index] - currentCount;
+      if (availableCount > 0) {
+        const randomCount = Math.floor(Math.random() * availableCount) + 1;
+        for (let i = 0; i < randomCount; i++) {
+          newCardList.push(index);
+        }
+      }
+    });
+
+    setCardList(newCardList);
+  };
+
   return (
     <div className="flex justify-center items-center">
       <div className="calculator--container max-w-md mx-auto">
@@ -72,7 +97,7 @@ const BaccaratCalculator = () => {
             return (
               <Button
                 key={index}
-                onClick={() => handleAddCard(index)}
+                onClick={() => handleAddCard(index, 1)}
                 size="sm"
                 disabled={isDisabled}
               >
@@ -84,6 +109,12 @@ const BaccaratCalculator = () => {
         <div className="flex flex-col gap-4 mb-4">
           <Button onClick={handleReset} size="md">
             Reset
+          </Button>
+          <Button
+            onClick={randomGenerate}
+            size="md"
+          >
+            Random Generate
           </Button>
           <Button
             onClick={calculateOdds}
