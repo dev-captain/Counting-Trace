@@ -15,8 +15,14 @@ const BaccaratCalculator = () => {
   const [cardList, setCardList] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const handleAddCard = (number: number) => {
-    setCardList([...cardList, number]);
+  const cardNames = ['10s & Faces', 'Aces', '2s', '3s', '4s', '5s', '6s', '7s', '8s', '9s'];
+  const maxCounts = [128, 32, 32, 32, 32, 32, 32, 32, 32, 32];
+
+  const handleAddCard = (index: number) => {
+    const currentCount = cardList.filter(item => item === index).length;
+    if (currentCount < maxCounts[index]) {
+      setCardList([...cardList, index]);
+    }
   };
 
   const handleReset = () => {
@@ -42,26 +48,38 @@ const BaccaratCalculator = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex justify-center items-center">
       <div className="calculator--container max-w-md mx-auto">
-        <h1>Baccarat Odds Calculator</h1>
-        <div className="list">
-          {cardList.map((item, index) => (
-            <span key={index}>{item} </span>
-          ))}
+        <h1 className="text-center text-3xl mb-4">Baccarat Odds Calculator</h1>
+        <div className="list grid grid-cols-2 gap-4">
+          {cardNames.map((name, index) => {
+            const count = cardList.filter(item => item === index).length;
+            const maxCount = maxCounts[index];
+            return (
+              <div key={index} className="flex items-center justify-between">
+                <span className="font-bold">{name}:</span>
+                <span>{count}/{maxCount}</span>
+              </div>
+            );
+          })}
         </div>
         <div className="grid grid-cols-5 gap-2 my-4">
-          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((number) => (
-            <Button
-              key={number}
-              onClick={() => handleAddCard(number)}
-              size="sm"
-            >
-              {number}
-            </Button>
-          ))}
+          {cardNames.map((name, index) => {
+            const currentCount = cardList.filter(item => item === index).length;
+            const isDisabled = currentCount >= maxCounts[index];
+            return (
+              <Button
+                key={index}
+                onClick={() => handleAddCard(index)}
+                size="sm"
+                disabled={isDisabled}
+              >
+                {index === 0 ? '10+' : index === 1 ? 'A' : index}
+              </Button>
+            );
+          })}
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 mb-4">
           <Button onClick={handleReset} size="md">
             Reset
           </Button>
@@ -71,7 +89,7 @@ const BaccaratCalculator = () => {
         </div>
 
         {odds && (
-          <div>
+          <div className="flex flex-col gap-4 justify-center items-center">
             <p>Banker: {(odds.banker * 100).toFixed(2)}%</p>
             <p>Player: {(odds.player * 100).toFixed(2)}%</p>
             <p>Tie: {(odds.tie * 100).toFixed(2)}%</p>
